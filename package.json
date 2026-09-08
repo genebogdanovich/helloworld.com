@@ -1,0 +1,9 @@
+{
+  "name": "helloworld.com",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "preview": "python3 -m http.server 4173 --directory dist"
+  }
+}

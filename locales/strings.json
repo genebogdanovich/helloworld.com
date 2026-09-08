@@ -1,0 +1,38 @@
+{
+  "metaTitle": {
+    "comment": "Document title. Shown in the browser tab and as the Google result title. Keep it under ~60 characters.",
+    "en": "Hello world",
+    "da": "Hej verden",
+    "ar": "مرحبا بالعالم"
+  },
+  "metaDescription": {
+    "comment": "Search-result snippet under the title. One or two sentences, under ~160 characters. Must be unique per language.",
+    "en": "A small static page in English, with Danish and Arabic versions, built to show multilingual URLs and SEO.",
+    "da": "En lille statisk side på dansk, med engelsk og arabisk version, der viser flersprogede URL’er og SEO.",
+    "ar": "صفحة ثابتة صغيرة بالعربية، مع نسختين بالإنجليزية والدنماركية، لعرض عناوين URL متعددة اللغات وتحسين الظهور في البحث."
+  },
+  "heading": {
+    "comment": "Visible H1. Real HTML text, not an image, so search engines can read it.",
+    "en": "Hello world",
+    "da": "Hej verden",
+    "ar": "مرحبا بالعالم"
+  },
+  "body": {
+    "comment": "Main paragraph on the page. Write naturally in this language; do not leave English and translate word-for-word.",
+    "en": "This is a small static website. Each language has its own URL so people and search engines can find the page in their own language.",
+    "da": "Dette er et lille statisk website. Hvert sprog har sin egen URL, så mennesker og søgemaskiner kan finde siden på deres eget sprog.",
+    "ar": "هذا موقع ثابت صغير. لكل لغة عنوان URL خاص بها حتى يتمكن الأشخاص ومحركات البحث من العثور على الصفحة بلغتهم."
+  },
+  "imageAlt": {
+    "comment": "alt text for the hero image. Describe the image in this language. If the image contains words, include those words here.",
+    "en": "Cartoon cow, dog, and cat under the words Hello world",
+    "da": "Tegnet ko, hund og kat under ordene Hej verden",
+    "ar": "بقرة وكلب وقطة كرتونية تحت عبارة مرحبا بالعالم"
+  },
+  "languageNavLabel": {
+    "comment": "Accessible name of the language switcher. Translate this; the language names themselves stay in their native form.",
+    "en": "Languages",
+    "da": "Sprog",
+    "ar": "اللغات"
+  }
+}
