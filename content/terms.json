@@ -1,0 +1,15 @@
+{
+  "metaTitle": "Terms of Service",
+  "metaDescription": "Student-project terms for Hello World. You may say Hello World as many times as you like.",
+  "heading": "Terms of Service",
+  "welcome": "Welcome to Hello World!",
+  "intro": "By using this website, you agree to the following extremely serious terms:",
+  "items": [
+    "You may say “Hello World” as many times as you like.",
+    "Please do not use this website to start a robot uprising.",
+    "We are not responsible for missing semicolons, broken brackets, or emotional damage caused by debugging.",
+    "Everything on this website is provided “as is,” mostly because we are students.",
+    "We reserve the right to update these terms whenever we learn a new word."
+  ],
+  "closing": "That’s it. Have fun, learn something, and remember: every great program starts with Hello World."
+}

@@ -1,30 +1,30 @@
 {
   "metaTitle": {
-    "comment": "Document title. Shown in the browser tab and as the Google result title. Keep it under ~60 characters.",
+    "comment": "Home page document title. Shown in the browser tab and as the Google result title. Keep it under ~60 characters.",
     "en": "Hello world",
     "da": "Hej verden",
     "ar": "مرحبا بالعالم"
   },
   "metaDescription": {
-    "comment": "Search-result snippet under the title. One or two sentences, under ~160 characters. Must be unique per language.",
+    "comment": "Home page search-result snippet. One or two sentences, under ~160 characters. Must be unique per language.",
     "en": "A small static page in English, with Danish and Arabic versions, built to show multilingual URLs and SEO.",
     "da": "En lille statisk side på dansk, med engelsk og arabisk version, der viser flersprogede URL’er og SEO.",
     "ar": "صفحة ثابتة صغيرة بالعربية، مع نسختين بالإنجليزية والدنماركية، لعرض عناوين URL متعددة اللغات وتحسين الظهور في البحث."
   },
   "heading": {
-    "comment": "Visible H1. Real HTML text, not an image, so search engines can read it.",
+    "comment": "Visible H1 on the home page. Real HTML text, not an image, so search engines can read it.",
     "en": "Hello world",
     "da": "Hej verden",
     "ar": "مرحبا بالعالم"
   },
   "body": {
-    "comment": "Main paragraph on the page. Write naturally in this language; do not leave English and translate word-for-word.",
+    "comment": "Main paragraph on the home page. Write naturally in this language; do not leave English and translate word-for-word.",
     "en": "This is a small static website. Each language has its own URL so people and search engines can find the page in their own language.",
     "da": "Dette er et lille statisk website. Hvert sprog har sin egen URL, så mennesker og søgemaskiner kan finde siden på deres eget sprog.",
     "ar": "هذا موقع ثابت صغير. لكل لغة عنوان URL خاص بها حتى يتمكن الأشخاص ومحركات البحث من العثور على الصفحة بلغتهم."
   },
   "imageAlt": {
-    "comment": "alt text for the hero image. Describe the image in this language. If the image contains words, include those words here.",
+    "comment": "alt text for the home page hero image. Describe the image in this language. If the image contains words, include those words here.",
     "en": "Cartoon cow, dog, and cat under the words Hello world",
     "da": "Tegnet ko, hund og kat under ordene Hej verden",
     "ar": "بقرة وكلب وقطة كرتونية تحت عبارة مرحبا بالعالم"
@@ -34,5 +34,101 @@
     "en": "Languages",
     "da": "Sprog",
     "ar": "اللغات"
+  },
+  "footerNavLabel": {
+    "comment": "Accessible name of the footer link list.",
+    "en": "Legal and support",
+    "da": "Juridisk og support",
+    "ar": "الشروط والدعم"
+  },
+  "footerTerms": {
+    "comment": "Footer link to the Terms page. Translate the label even though the Terms document itself stays in English.",
+    "en": "Terms",
+    "da": "Vilkår",
+    "ar": "الشروط"
+  },
+  "footerSupport": {
+    "comment": "Footer link to the Support page.",
+    "en": "Support",
+    "da": "Support",
+    "ar": "الدعم"
+  },
+  "supportMetaTitle": {
+    "comment": "Support page document title. Keep it under ~60 characters.",
+    "en": "Support",
+    "da": "Support",
+    "ar": "الدعم"
+  },
+  "supportMetaDescription": {
+    "comment": "Support page search-result snippet. Unique per language, under ~160 characters.",
+    "en": "Having trouble with Hello World? Refresh the page, check your spelling, or email hello@example.com.",
+    "da": "Problemer med Hello World? Opdater siden, tjek stavningen, eller skriv til hello@example.com.",
+    "ar": "مشكلة مع Hello World؟ حدّث الصفحة، راجع الإملاء، أو راسل hello@example.com."
+  },
+  "supportHeading": {
+    "comment": "Visible H1 on the Support page.",
+    "en": "Support",
+    "da": "Support",
+    "ar": "الدعم"
+  },
+  "supportIntro": {
+    "comment": "Opening line on the Support page. Keep Hello World as the product name.",
+    "en": "Having trouble with Hello World?",
+    "da": "Har du problemer med Hello World?",
+    "ar": "تواجه مشكلة مع Hello World؟"
+  },
+  "supportLead": {
+    "comment": "Sentence above the troubleshooting steps.",
+    "en": "Try these advanced troubleshooting techniques:",
+    "da": "Prøv disse avancerede fejlfindingsteknikker:",
+    "ar": "جرّب تقنيات استكشاف الأخطاء المتقدمة هذه:"
+  },
+  "supportStep1Title": {
+    "comment": "First troubleshooting step title. Keep the number.",
+    "en": "1. Refresh the page.",
+    "da": "1. Opdater siden.",
+    "ar": "1. حدّث الصفحة."
+  },
+  "supportStep1Body": {
+    "comment": "First troubleshooting step body.",
+    "en": "The oldest trick in the book.",
+    "da": "Det ældste trick i bogen.",
+    "ar": "أقدم حيلة في الكتاب."
+  },
+  "supportStep2Title": {
+    "comment": "Second troubleshooting step title. Keep the number.",
+    "en": "2. Check your spelling.",
+    "da": "2. Tjek din stavning.",
+    "ar": "2. راجع الإملاء."
+  },
+  "supportStep2Body": {
+    "comment": "Second troubleshooting step body. Keep Hello World in quotes as the product phrase.",
+    "en": "“Hello World” is very particular about its letters.",
+    "da": "“Hello World” er meget kræsen med sine bogstaver.",
+    "ar": "عبارة “Hello World” صارمة جداً في حروفها."
+  },
+  "supportStep3Title": {
+    "comment": "Third troubleshooting step title. Keep the number.",
+    "en": "3. Try turning it off and on again.",
+    "da": "3. Prøv at slukke og tænde igen.",
+    "ar": "3. جرّب إطفاء الجهاز وتشغيله من جديد."
+  },
+  "supportStep3Body": {
+    "comment": "Third troubleshooting step body.",
+    "en": "Yes, seriously.",
+    "da": "Ja, seriøst.",
+    "ar": "نعم، بجدية."
+  },
+  "supportContact": {
+    "comment": "Keep the {email} placeholder exactly. The build replaces it with a mailto link.",
+    "en": "Still stuck? Contact us at {email} and describe what went wrong.",
+    "da": "Sidder du stadig fast? Kontakt os på {email} og fortæl, hvad der gik galt.",
+    "ar": "ما زلت عالقاً؟ تواصل معنا على {email} واشرح ما الذي حدث."
+  },
+  "supportEvidence": {
+    "comment": "Final paragraph on the Support page.",
+    "en": "Please include screenshots, error messages, and your best guess at what the computer is angry about.",
+    "da": "Vedhæft gerne skærmbilleder, fejlmeddelelser og dit bedste bud på, hvad computeren er sur over.",
+    "ar": "أرفق لقطات شاشة ورسائل الخطأ وأفضل تخمين لديك حول سبب غضب الحاسوب."
   }
 }
