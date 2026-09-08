@@ -64,7 +64,7 @@ export const site = {
       nativeName: "English",
       appStoreStorefront: "us",
       appStoreBadge:
-        "images/Download-on-the-App-Store/US/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg",
+        "images/Download-on-the-App-Store/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg",
     },
     {
       code: "da",
@@ -74,7 +74,7 @@ export const site = {
       nativeName: "Dansk",
       appStoreStorefront: "dk",
       appStoreBadge:
-        "images/Download-on-the-App-Store/DK/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_DK_RGB_blk_100217.svg",
+        "images/Download-on-the-App-Store/Download_on_the_App_Store_Badge_DK_RGB_blk_100217.svg",
     },
     {
       code: "ar",
@@ -84,7 +84,7 @@ export const site = {
       nativeName: "العربية",
       appStoreStorefront: "sa",
       appStoreBadge:
-        "images/Download-on-the-App-Store/AR/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_AR_RGB_blk_102417.svg",
+        "images/Download-on-the-App-Store/Download_on_the_App_Store_Badge_AR_RGB_blk_102417.svg",
     },
   ],
 };
