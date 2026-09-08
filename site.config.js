@@ -8,9 +8,9 @@
  *   One language = one URL. Never swap strings with JavaScript on a
  *   single URL. Google indexes URLs, not runtime state.
  *
- *   English (default)  https://helloworld.com/
- *   Danish             https://helloworld.com/da/
- *   Arabic             https://helloworld.com/ar/
+ *   English (default)  {origin}{basePath}/
+ *   Danish             {origin}{basePath}/da/
+ *   Arabic             {origin}{basePath}/ar/
  *
  * Localized inner pages follow the same prefix:
  *   Support            /support/   /da/support/   /ar/support/
@@ -18,12 +18,37 @@
  * Untranslated pages get one URL, not a copy per language:
  *   Terms              /terms/
  *
- * English stays at `/` because this is a .com with English as the
- * default. Danish and Arabic get a directory prefix. Do not also
- * publish `/en/` — that would be duplicate content.
+ * English stays at `/` (after the hosting base path) because this is
+ * a .com-style site with English as the default. Do not also publish
+ * `/en/` — that would be duplicate content.
+ *
+ * Hosting:
+ *   Local `npm run preview` leaves SITE_BASE_PATH empty so hrefs are
+ *   `/da/`, `/support/`, and so on.
+ *
+ *   GitHub Pages project sites live at
+ *   https://<user>.github.io/<repo>/
+ *   so every in-page href and canonical URL must include `/<repo>`.
+ *   The workflow sets SITE_ORIGIN and SITE_BASE_PATH from
+ *   actions/configure-pages. Files in dist/ do NOT nest `<repo>/`;
+ *   GitHub already mounts the artifact at that path.
  */
+function env(name, fallback) {
+  const value = process.env[name];
+  return value === undefined || value === "" ? fallback : value;
+}
+
+function normalizeBasePath(value) {
+  const trimmed = value.replace(/\/$/, "");
+  if (trimmed === "" || trimmed === "/") {
+    return "";
+  }
+  return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+}
+
 export const site = {
-  url: "https://helloworld.com",
+  origin: env("SITE_ORIGIN", "http://127.0.0.1:4173"),
+  basePath: normalizeBasePath(env("SITE_BASE_PATH", "")),
   defaultLocale: "en",
   supportEmail: "hello@example.com",
   locales: [
@@ -51,13 +76,26 @@ export const site = {
   ],
 };
 
+/**
+ * Prefix a site-root path with the GitHub Pages repo path when needed.
+ * pagePath() still returns unprefixed paths for writing files to dist/.
+ */
+export function withBase(path) {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  if (normalized === "/") {
+    return site.basePath ? `${site.basePath}/` : "/";
+  }
+  return `${site.basePath}${normalized}`;
+}
+
 export function absoluteUrl(path) {
-  return new URL(path, `${site.url}/`).href;
+  return new URL(withBase(path), `${site.origin}/`).href;
 }
 
 /**
- * Path for a page in a given locale.
- * Terms ignores the locale: there is only an English document.
+ * Path for a page in a given locale, relative to the site root
+ * (not including SITE_BASE_PATH). Terms ignores the locale: there
+ * is only an English document.
  */
 export function pagePath(page, locale) {
   switch (page) {

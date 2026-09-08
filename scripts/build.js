@@ -1,7 +1,7 @@
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { absoluteUrl, pagePath, site } from "../site.config.js";
+import { absoluteUrl, pagePath, site, withBase } from "../site.config.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -52,8 +52,9 @@ writeHtml(pagePath("terms", localeByDefault()), renderTerms());
 
 writeFileSync(join(dist, "sitemap.xml"), renderSitemap());
 writeFileSync(join(dist, "robots.txt"), renderRobots());
+writeFileSync(join(dist, ".nojekyll"), "");
 
-console.log("Built home, support, and terms pages into dist/");
+console.log(`Built site for ${absoluteUrl("/")}`);
 
 function validateCatalog(strings, localeCodes, keys) {
   const missing = [];
@@ -140,7 +141,7 @@ function languageNav(locale, page) {
   const links = site.locales
     .map((item) => {
       const current = item.code === locale.code ? ' aria-current="page"' : "";
-      return `          <li><a href="${pagePath(page, item)}" hreflang="${item.code}" lang="${item.code}"${current}>${escapeHtml(item.nativeName)}</a></li>`;
+      return `          <li><a href="${withBase(pagePath(page, item))}" hreflang="${item.code}" lang="${item.code}"${current}>${escapeHtml(item.nativeName)}</a></li>`;
     })
     .join("\n");
 
@@ -162,8 +163,8 @@ ${links}
 }
 
 function footerNav(locale, currentPage) {
-  const termsHref = pagePath("terms", locale);
-  const supportHref = pagePath("support", locale);
+  const termsHref = withBase(pagePath("terms", locale));
+  const supportHref = withBase(pagePath("support", locale));
   const termsCurrent = currentPage === "terms" ? ' aria-current="page"' : "";
   const supportCurrent = currentPage === "support" ? ' aria-current="page"' : "";
 
@@ -253,7 +254,7 @@ ${footerHtml}
 function websiteJsonLd() {
   return {
     "@type": "WebSite",
-    url: `${site.url}/`,
+    url: absoluteUrl("/"),
     inLanguage: site.locales.map((item) => item.code),
   };
 }
@@ -273,6 +274,7 @@ function renderHome(locale) {
   const title = t("metaTitle", locale.code);
   const description = t("metaDescription", locale.code);
   const imagePath = `/images/hello-world-${locale.code}.png`;
+  const imageHref = withBase(imagePath);
   const imageUrl = absoluteUrl(imagePath);
   const imageAlt = t("imageAlt", locale.code);
 
@@ -284,7 +286,7 @@ function renderHome(locale) {
         This image is a separate localized asset because it contains words.
       -->
       <p>
-        <img src="${imagePath}" alt="${escapeHtml(imageAlt)}" width="1080" height="1080">
+        <img src="${imageHref}" alt="${escapeHtml(imageAlt)}" width="1080" height="1080">
       </p>
     </main>`;
 
