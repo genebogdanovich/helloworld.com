@@ -1,7 +1,7 @@
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { absoluteUrl, pagePath, site, withBase } from "../site.config.js";
+import { absoluteUrl, appStoreUrl, pagePath, site, withBase } from "../site.config.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -35,13 +35,22 @@ const requiredKeys = [
   "supportStep3Body",
   "supportContact",
   "supportEvidence",
+  "appStoreHeading",
+  "appStoreBadgeAlt",
 ];
 
 validateCatalog(catalog, site.locales.map((locale) => locale.code), requiredKeys);
 
 rmSync(dist, { recursive: true, force: true });
-mkdirSync(join(dist, "images"), { recursive: true });
+mkdirSync(join(dist, "images", "app-store"), { recursive: true });
 cpSync(join(root, "images"), join(dist, "images"), { recursive: true });
+
+for (const locale of site.locales) {
+  copyFileSync(
+    join(root, locale.appStoreBadge),
+    join(dist, "images", "app-store", `${locale.code}.svg`),
+  );
+}
 
 for (const locale of site.locales) {
   writeHtml(pagePath("home", locale), renderHome(locale));
@@ -178,6 +187,45 @@ function footerNav(locale, currentPage) {
     </footer>`;
 }
 
+function appStoreBlock(locale) {
+  const href = appStoreUrl(locale);
+  const badgePath = `/images/app-store/${locale.code}.svg`;
+  const alt = t("appStoreBadgeAlt", locale.code);
+
+  return `    <!--
+      Official Apple badge as a real <a href> (not a button or JS).
+      The storefront in the URL matches the page language so Google
+      and the App Store land on the right country listing.
+      The image is a separate localized asset because it contains words.
+    -->
+    <aside>
+      <h2>${escapeHtml(t("appStoreHeading", locale.code))}</h2>
+      <p>
+        <a href="${escapeHtml(href)}" hreflang="${locale.code}" rel="external">
+          <img src="${withBase(badgePath)}" alt="${escapeHtml(alt)}" width="120" height="40" lang="${locale.code}">
+        </a>
+      </p>
+    </aside>`;
+}
+
+function appJsonLd(locale) {
+  const href = appStoreUrl(locale);
+  return {
+    "@type": "MobileApplication",
+    name: site.appStore.name,
+    operatingSystem: "iOS, iPadOS",
+    applicationCategory: "EducationalApplication",
+    downloadUrl: href,
+    installUrl: href,
+    inLanguage: locale.code,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+}
+
 function linkEmail(template, email) {
   const link = `<a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>`;
   return escapeHtml(template).replaceAll("{email}", link);
@@ -244,6 +292,8 @@ ${JSON.stringify(jsonLd, null, 6).replaceAll("<", "\\u003c")}
 ${languageNavHtml}
 
 ${mainHtml}
+
+${appStoreBlock(locale)}
 
 ${footerHtml}
   </body>
@@ -316,6 +366,7 @@ ${hreflangTags("home")}`,
         caption: imageAlt,
       },
       workTranslation: translationList("home", locale),
+      mentions: appJsonLd(locale),
     },
     imageUrl,
     imageAlt,
@@ -367,6 +418,7 @@ ${hreflangTags("support")}`,
       inLanguage: locale.code,
       isPartOf: websiteJsonLd(),
       workTranslation: translationList("support", locale),
+      mentions: appJsonLd(locale),
     },
     imageUrl,
     imageAlt,
@@ -412,6 +464,7 @@ ${items}
       description: terms.metaDescription,
       inLanguage: "en",
       isPartOf: websiteJsonLd(),
+      mentions: appJsonLd(locale),
     },
     imageUrl,
     imageAlt,

@@ -51,6 +51,10 @@ export const site = {
   basePath: normalizeBasePath(env("SITE_BASE_PATH", "")),
   defaultLocale: "en",
   supportEmail: "hello@example.com",
+  appStore: {
+    id: "6462816053",
+    name: "Flash Cards: Create With AI",
+  },
   locales: [
     {
       code: "en",
@@ -58,6 +62,9 @@ export const site = {
       ogLocale: "en_US",
       path: "/",
       nativeName: "English",
+      appStoreStorefront: "us",
+      appStoreBadge:
+        "images/Download-on-the-App-Store/US/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg",
     },
     {
       code: "da",
@@ -65,6 +72,9 @@ export const site = {
       ogLocale: "da_DK",
       path: "/da/",
       nativeName: "Dansk",
+      appStoreStorefront: "dk",
+      appStoreBadge:
+        "images/Download-on-the-App-Store/DK/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_DK_RGB_blk_100217.svg",
     },
     {
       code: "ar",
@@ -72,6 +82,9 @@ export const site = {
       ogLocale: "ar_AR",
       path: "/ar/",
       nativeName: "العربية",
+      appStoreStorefront: "sa",
+      appStoreBadge:
+        "images/Download-on-the-App-Store/AR/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_AR_RGB_blk_102417.svg",
     },
   ],
 };
@@ -90,6 +103,10 @@ export function withBase(path) {
 
 export function absoluteUrl(path) {
   return new URL(withBase(path), `${site.origin}/`).href;
+}
+
+export function appStoreUrl(locale) {
+  return `https://apps.apple.com/${locale.appStoreStorefront}/app/id${site.appStore.id}`;
 }
 
 /**

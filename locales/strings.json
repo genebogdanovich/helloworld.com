@@ -130,5 +130,17 @@
     "en": "Please include screenshots, error messages, and your best guess at what the computer is angry about.",
     "da": "Vedhæft gerne skærmbilleder, fejlmeddelelser og dit bedste bud på, hvad computeren er sur over.",
     "ar": "أرفق لقطات شاشة ورسائل الخطأ وأفضل تخمين لديك حول سبب غضب الحاسوب."
+  },
+  "appStoreHeading": {
+    "comment": "Visible heading above the App Store badge. Keep it short.",
+    "en": "Get the app",
+    "da": "Hent appen",
+    "ar": "حمّل التطبيق"
+  },
+  "appStoreBadgeAlt": {
+    "comment": "alt text for the official Download on the App Store badge. Include the words shown on the badge.",
+    "en": "Download on the App Store",
+    "da": "Hent i App Store",
+    "ar": "التنزيل على App Store"
   }
 }
