@@ -15,6 +15,9 @@ const terms = JSON.parse(
 const requiredKeys = [
   "metaTitle",
   "metaDescription",
+  "ogTitle",
+  "ogDescription",
+  "ogImageAlt",
   "heading",
   "body",
   "imageAlt",
@@ -231,6 +234,15 @@ function linkEmail(template, email) {
   return escapeHtml(template).replaceAll("{email}", link);
 }
 
+function ogShare(locale) {
+  return {
+    imageUrl: absoluteUrl("/images/app-logo/og-share.png"),
+    imageAlt: t("ogImageAlt", locale.code),
+    imageWidth: 1200,
+    imageHeight: 630,
+  };
+}
+
 function renderDocument({
   locale,
   title,
@@ -240,6 +252,10 @@ function renderDocument({
   jsonLd,
   imageUrl,
   imageAlt,
+  imageWidth,
+  imageHeight,
+  ogTitle = title,
+  ogDescription = description,
   languageNavHtml,
   mainHtml,
   footerHtml,
@@ -277,14 +293,19 @@ function renderDocument({
     <link rel="canonical" href="${pageUrl}">
 ${hreflangHtml}
 
-    <!-- Open Graph: used by chat apps and some search features. og:locale uses underscores. -->
+    <!--
+      Open Graph: iMessage, Telegram, Slack, WhatsApp, Facebook.
+      Title and description here are the chat card, not the Google snippet.
+      og:locale uses underscores.
+    -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="${pageUrl}">
-    <meta property="og:title" content="${escapeHtml(title)}">
-    <meta property="og:description" content="${escapeHtml(description)}">
+    <meta property="og:title" content="${escapeHtml(ogTitle)}">
+    <meta property="og:description" content="${escapeHtml(ogDescription)}">
     <meta property="og:image" content="${imageUrl}">
-    <meta property="og:image:width" content="1080">
-    <meta property="og:image:height" content="1080">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="${imageWidth}">
+    <meta property="og:image:height" content="${imageHeight}">
     <meta property="og:image:alt" content="${escapeHtml(imageAlt)}">
     <meta property="og:locale" content="${locale.ogLocale}">
 ${localized ? `${ogLocaleAlternates(locale)}\n` : ""}
@@ -330,8 +351,9 @@ function renderHome(locale) {
   const description = t("metaDescription", locale.code);
   const imagePath = `/images/hello-world-${locale.code}.png`;
   const imageHref = withBase(imagePath);
-  const imageUrl = absoluteUrl(imagePath);
+  const heroImageUrl = absoluteUrl(imagePath);
   const imageAlt = t("imageAlt", locale.code);
+  const share = ogShare(locale);
 
   const mainHtml = `    <main>
       <h1>${escapeHtml(t("heading", locale.code))}</h1>
@@ -365,7 +387,7 @@ ${hreflangTags("home")}`,
       isPartOf: websiteJsonLd(),
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: imageUrl,
+        url: heroImageUrl,
         width: 1080,
         height: 1080,
         caption: imageAlt,
@@ -373,8 +395,12 @@ ${hreflangTags("home")}`,
       workTranslation: translationList("home", locale),
       mentions: appJsonLd(locale),
     },
-    imageUrl,
-    imageAlt,
+    imageUrl: share.imageUrl,
+    imageAlt: share.imageAlt,
+    imageWidth: share.imageWidth,
+    imageHeight: share.imageHeight,
+    ogTitle: t("ogTitle", locale.code),
+    ogDescription: t("ogDescription", locale.code),
     languageNavHtml: languageNav(locale, "home"),
     mainHtml,
     footerHtml: footerNav(locale, "home"),
@@ -385,9 +411,7 @@ function renderSupport(locale) {
   const pageUrl = absoluteUrl(pagePath("support", locale));
   const title = t("supportMetaTitle", locale.code);
   const description = t("supportMetaDescription", locale.code);
-  const imagePath = `/images/hello-world-${locale.code}.png`;
-  const imageUrl = absoluteUrl(imagePath);
-  const imageAlt = t("imageAlt", locale.code);
+  const share = ogShare(locale);
   const contact = linkEmail(
     t("supportContact", locale.code),
     site.supportEmail,
@@ -425,8 +449,10 @@ ${hreflangTags("support")}`,
       workTranslation: translationList("support", locale),
       mentions: appJsonLd(locale),
     },
-    imageUrl,
-    imageAlt,
+    imageUrl: share.imageUrl,
+    imageAlt: share.imageAlt,
+    imageWidth: share.imageWidth,
+    imageHeight: share.imageHeight,
     languageNavHtml: languageNav(locale, "support"),
     mainHtml,
     footerHtml: footerNav(locale, "support"),
@@ -436,8 +462,7 @@ ${hreflangTags("support")}`,
 function renderTerms() {
   const locale = localeByDefault();
   const pageUrl = absoluteUrl(pagePath("terms", locale));
-  const imageUrl = absoluteUrl(`/images/hello-world-${locale.code}.png`);
-  const imageAlt = t("imageAlt", locale.code);
+  const share = ogShare(locale);
   const items = terms.items
     .map((item) => `        <li>${escapeHtml(item)}</li>`)
     .join("\n");
@@ -471,8 +496,10 @@ ${items}
       isPartOf: websiteJsonLd(),
       mentions: appJsonLd(locale),
     },
-    imageUrl,
-    imageAlt,
+    imageUrl: share.imageUrl,
+    imageAlt: share.imageAlt,
+    imageWidth: share.imageWidth,
+    imageHeight: share.imageHeight,
     languageNavHtml: `    <!-- No language picker: this document is not localized. -->`,
     mainHtml,
     footerHtml: footerNav(locale, "terms"),

@@ -11,6 +11,24 @@
     "da": "En lille statisk side på dansk, med engelsk og arabisk version, der viser flersprogede URL’er og SEO.",
     "ar": "صفحة ثابتة صغيرة بالعربية، مع نسختين بالإنجليزية والدنماركية، لعرض عناوين URL متعددة اللغات وتحسين الظهور في البحث."
   },
+  "ogTitle": {
+    "comment": "Home page Open Graph title. Headline on iMessage, Telegram, Slack, and Facebook cards. Not the Google result title. Keep it short.",
+    "en": "Hello World, Probably",
+    "da": "Hej verden, formentlig",
+    "ar": "مرحبا بالعالم، على الأرجح"
+  },
+  "ogDescription": {
+    "comment": "Home page Open Graph description. Shown under the title on chat and social share cards. Not the Google snippet.",
+    "en": "A revolutionary website about saying hello to the world, one unnecessarily localized character at a time. Contains zero useful information and at least one enthusiastic greeting.",
+    "da": "Et revolutionerende website om at sige hej til verden, ét unødigt lokaliseret tegn ad gangen. Indeholder ingen nyttig information og mindst én entusiastisk hilsen.",
+    "ar": "موقع ثوري عن قول مرحبا للعالم، حرفاً مترجماً بلا داعٍ في كل مرة. بلا أي معلومات مفيدة، ومع تحية حماسية واحدة على الأقل."
+  },
+  "ogImageAlt": {
+    "comment": "Accessibility text for the Open Graph share image. Describe the logo; this file has no words on it.",
+    "en": "Hello World app logo: two overlapping rounded squares on a green background",
+    "da": "Hello World-appikon: to overlappende afrundede firkanter på en grøn baggrund",
+    "ar": "شعار تطبيق Hello World: مربعان مستديران متداخلان على خلفية خضراء"
+  },
   "heading": {
     "comment": "Visible H1 on the home page. Real HTML text, not an image, so search engines can read it.",
     "en": "Hello world",
