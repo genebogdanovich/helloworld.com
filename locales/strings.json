@@ -47,6 +47,30 @@
     "da": "Tegnet ko, hund og kat under ordene Hej verden",
     "ar": "بقرة وكلب وقطة كرتونية تحت عبارة مرحبا بالعالم"
   },
+  "reviewsHeading": {
+    "comment": "Visible heading above the home page reviews list.",
+    "en": "Reviews",
+    "da": "Anmeldelser",
+    "ar": "التقييمات"
+  },
+  "reviewsRating": {
+    "comment": "Numeric star rating. Keep the {rating} placeholder exactly. The build replaces it with 1–5.",
+    "en": "{rating}/5",
+    "da": "{rating}/5",
+    "ar": "{rating}/5"
+  },
+  "reviewsTranslatedFrom": {
+    "comment": "Shown when the review was written in another language. Keep the {language} placeholder exactly.",
+    "en": "Translated from {language}",
+    "da": "Oversat fra {language}",
+    "ar": "مترجم من {language}"
+  },
+  "reviewsVersion": {
+    "comment": "App version the review was written for. Keep the {version} placeholder exactly.",
+    "en": "Version {version}",
+    "da": "Version {version}",
+    "ar": "الإصدار {version}"
+  },
   "languageNavLabel": {
     "comment": "Accessible name of the language switcher. Translate this; the language names themselves stay in their native form.",
     "en": "Languages",

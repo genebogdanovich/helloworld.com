@@ -11,6 +11,9 @@ const catalog = JSON.parse(
 const terms = JSON.parse(
   readFileSync(join(root, "content", "terms.json"), "utf8"),
 );
+const reviews = JSON.parse(
+  readFileSync(join(root, "content", "reviews.json"), "utf8"),
+);
 
 const requiredKeys = [
   "metaTitle",
@@ -21,6 +24,10 @@ const requiredKeys = [
   "heading",
   "body",
   "imageAlt",
+  "reviewsHeading",
+  "reviewsRating",
+  "reviewsTranslatedFrom",
+  "reviewsVersion",
   "languageNavLabel",
   "footerNavLabel",
   "footerTerms",
@@ -43,6 +50,10 @@ const requiredKeys = [
 ];
 
 validateCatalog(catalog, site.locales.map((locale) => locale.code), requiredKeys);
+validateReviews(reviews, site.locales.map((locale) => locale.code));
+const sortedReviews = [...reviews].sort((a, b) =>
+  b.writtenAt.localeCompare(a.writtenAt),
+);
 
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, "images", "app-store"), { recursive: true });
@@ -91,6 +102,15 @@ function validateCatalog(strings, localeCodes, keys) {
     if (!strings.supportContact?.[code]?.includes("{email}")) {
       missing.push(`supportContact ${code} must contain {email}`);
     }
+    if (!strings.reviewsRating?.[code]?.includes("{rating}")) {
+      missing.push(`reviewsRating ${code} must contain {rating}`);
+    }
+    if (!strings.reviewsTranslatedFrom?.[code]?.includes("{language}")) {
+      missing.push(`reviewsTranslatedFrom ${code} must contain {language}`);
+    }
+    if (!strings.reviewsVersion?.[code]?.includes("{version}")) {
+      missing.push(`reviewsVersion ${code} must contain {version}`);
+    }
   }
 
   if (missing.length > 0) {
@@ -111,6 +131,161 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function fill(template, vars) {
+  let result = template;
+  for (const [key, value] of Object.entries(vars)) {
+    result = result.replaceAll(`{${key}}`, value);
+  }
+  return result;
+}
+
+function stars(rating) {
+  return `${"★".repeat(rating)}${"☆".repeat(5 - rating)}`;
+}
+
+function isIsoDate(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return false;
+  }
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+}
+
+function nonemptyString(value) {
+  return typeof value === "string" && value.trim() !== "";
+}
+
+function localizedMap(value, requiredLangs, label) {
+  const missing = [];
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    return [`${label} must be an object`];
+  }
+  for (const code of requiredLangs) {
+    if (!nonemptyString(value[code])) {
+      missing.push(`${label}.${code} is missing`);
+    }
+  }
+  return missing;
+}
+
+function validateReviews(items, localeCodes) {
+  const missing = [];
+
+  if (!Array.isArray(items) || items.length === 0) {
+    throw new Error("Reviews list is incomplete:\n  - content/reviews.json must be a non-empty array");
+  }
+
+  const ids = new Set();
+
+  items.forEach((review, index) => {
+    const where = review?.id ? `"${review.id}"` : `item ${index}`;
+
+    if (!nonemptyString(review?.id)) {
+      missing.push(`${where} is missing id`);
+    } else if (ids.has(review.id)) {
+      missing.push(`duplicate id "${review.id}"`);
+    } else {
+      ids.add(review.id);
+    }
+
+    if (!Number.isInteger(review?.rating) || review.rating < 1 || review.rating > 5) {
+      missing.push(`${where} rating must be an integer 1–5`);
+    }
+    if (!nonemptyString(review?.author)) {
+      missing.push(`${where} is missing author`);
+    }
+    if (!isIsoDate(review?.writtenAt)) {
+      missing.push(`${where} writtenAt must be YYYY-MM-DD`);
+    }
+    if (typeof review?.country !== "string" || !/^[A-Z]{2}$/.test(review.country)) {
+      missing.push(`${where} country must be an ISO 3166-1 alpha-2 code`);
+    }
+    if (!nonemptyString(review?.appVersion)) {
+      missing.push(`${where} is missing appVersion`);
+    }
+    if (typeof review?.sourceLanguage !== "string" || !/^[a-z]{2}$/.test(review.sourceLanguage)) {
+      missing.push(`${where} sourceLanguage must be a two-letter language code`);
+    }
+
+    const requiredLangs = new Set([review?.sourceLanguage, ...localeCodes]);
+    missing.push(...localizedMap(review?.title, requiredLangs, `${where} title`));
+    missing.push(...localizedMap(review?.body, requiredLangs, `${where} body`));
+  });
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Reviews list is incomplete:\n${missing.map((item) => `  - ${item}`).join("\n")}`,
+    );
+  }
+}
+
+function formatReviewDate(iso, localeCode) {
+  const [year, month, day] = iso.split("-").map(Number);
+  return new Intl.DateTimeFormat(localeCode, { dateStyle: "long" }).format(
+    new Date(year, month - 1, day),
+  );
+}
+
+function displayLanguage(code, localeCode) {
+  return new Intl.DisplayNames([localeCode], { type: "language" }).of(code);
+}
+
+function displayRegion(code, localeCode) {
+  return new Intl.DisplayNames([localeCode], { type: "region" }).of(code);
+}
+
+function renderReviewsSection(locale) {
+  const articles = sortedReviews
+    .map((review) => renderReview(review, locale))
+    .join("\n");
+
+  return `      <section>
+        <h2>${escapeHtml(t("reviewsHeading", locale.code))}</h2>
+${articles}
+      </section>`;
+}
+
+function renderReview(review, locale) {
+  const ratingText = fill(escapeHtml(t("reviewsRating", locale.code)), {
+    rating: String(review.rating),
+  });
+  const versionText = fill(escapeHtml(t("reviewsVersion", locale.code)), {
+    version: escapeHtml(review.appVersion),
+  });
+  const country = escapeHtml(displayRegion(review.country, locale.code));
+  const dateLabel = escapeHtml(formatReviewDate(review.writtenAt, locale.code));
+  const bodyHtml = review.body[locale.code]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => `          <p>${escapeHtml(line)}</p>`)
+    .join("\n");
+
+  const translatedFrom =
+    review.sourceLanguage === locale.code
+      ? ""
+      : `          <p>${fill(escapeHtml(t("reviewsTranslatedFrom", locale.code)), {
+          language: escapeHtml(
+            displayLanguage(review.sourceLanguage, locale.code),
+          ),
+        })}</p>\n`;
+
+  return `        <article>
+          <p><span aria-hidden="true">${stars(review.rating)}</span> ${ratingText}</p>
+          <h3>${escapeHtml(review.title[locale.code])}</h3>
+          <p><time datetime="${escapeHtml(review.writtenAt)}">${dateLabel}</time> — ${escapeHtml(review.author)}</p>
+          <p>${versionText} · ${country}</p>
+${translatedFrom}          <blockquote>
+${bodyHtml}
+          </blockquote>
+        </article>`;
 }
 
 function localeByDefault() {
@@ -365,6 +540,7 @@ function renderHome(locale) {
       <p>
         <img src="${imageHref}" alt="${escapeHtml(imageAlt)}" width="1080" height="1080">
       </p>
+${renderReviewsSection(locale)}
     </main>`;
 
   return renderDocument({
