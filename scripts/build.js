@@ -254,6 +254,7 @@ function renderDocument({
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="${withBase("/images/app-logo/favicon-32.png")}" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="${withBase("/images/app-logo/apple-touch-icon.png")}" sizes="180x180">
 
     <!--
       Not visual design. Google indexes the phone-sized page.
