@@ -268,6 +268,9 @@ function renderDocument({
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}">
 
+    <!-- Safari on iPhone/iPad draws the native App Store banner from this id. Same on every language. -->
+    <meta name="apple-itunes-app" content="app-id=${site.appStore.id}">
+
     <!-- Each URL canonicalizes to itself, never to English. -->
     <link rel="canonical" href="${pageUrl}">
 ${hreflangHtml}
