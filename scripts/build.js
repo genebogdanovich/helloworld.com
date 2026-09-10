@@ -36,6 +36,7 @@ const sortedReviews = [...reviews].sort((a, b) =>
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, "images", "app-store"), { recursive: true });
 cpSync(join(root, "images"), join(dist, "images"), { recursive: true });
+cpSync(join(root, "styles"), join(dist, "styles"), { recursive: true });
 
 for (const locale of site.locales) {
   copyFileSync(
@@ -292,7 +293,7 @@ function renderReviewsSection(locale) {
     .map((review) => renderReview(review, locale))
     .join("\n");
 
-  return `      <section>
+  return `      <section class="reviews">
         <h2>${escapeHtml(t("reviewsHeading", locale.code))}</h2>
 ${articles}
       </section>`;
@@ -318,17 +319,17 @@ function renderReview(review, locale) {
   const translatedFrom =
     review.sourceLanguage === locale.code
       ? ""
-      : `          <p>${fill(escapeHtml(t("reviewsTranslatedFrom", locale.code)), {
+      : `          <p class="translated">${fill(escapeHtml(t("reviewsTranslatedFrom", locale.code)), {
           language: escapeHtml(
             displayLanguage(review.sourceLanguage, locale.code),
           ),
         })}</p>\n`;
 
   return `        <article>
-          <p><span aria-hidden="true">${stars(review.rating)}</span> ${ratingText}</p>
+          <p class="rating"><span aria-hidden="true">${stars(review.rating)}</span> ${ratingText}</p>
           <h3>${escapeHtml(copy.title)}</h3>
-          <p><time datetime="${escapeHtml(review.writtenAt)}">${dateLabel}</time> — ${escapeHtml(review.author)}</p>
-          <p>${versionText} · ${country}</p>
+          <p class="byline"><time datetime="${escapeHtml(review.writtenAt)}">${dateLabel}</time> — ${escapeHtml(review.author)}</p>
+          <p class="meta">${versionText} · ${country}</p>
 ${translatedFrom}          <blockquote>
 ${bodyHtml}
           </blockquote>
@@ -386,7 +387,7 @@ function languageNav(locale, page) {
       The picker stays on this page type (home stays on home, support
       stays on support).
     -->
-    <nav aria-label="${escapeHtml(t("languageNavLabel", locale.code))}">
+    <nav class="languages" aria-label="${escapeHtml(t("languageNavLabel", locale.code))}">
       <details>
         <summary>${escapeHtml(locale.nativeName)}</summary>
         <ul>
@@ -423,7 +424,7 @@ function appStoreBlock(locale) {
       and the App Store land on the right country listing.
       The image is a separate localized asset because it contains words.
     -->
-    <aside>
+    <aside class="store">
       <h2>${escapeHtml(t("appStoreHeading", locale.code))}</h2>
       <p>
         <a href="${escapeHtml(href)}" hreflang="${locale.code}" rel="external">
@@ -482,6 +483,7 @@ function renderDocument({
   mainHtml,
   footerHtml,
   localized = true,
+  stylesheets = [],
 }) {
   const lastMod = new Date().toISOString().slice(0, 10);
   jsonLd.dateModified = lastMod;
@@ -503,6 +505,9 @@ function renderDocument({
       html { color-scheme: light; }
       img { max-width: 100%; height: auto; }
     </style>
+${stylesheets
+  .map((href) => `    <link rel="stylesheet" href="${href}">`)
+  .join("\n")}
 
     <!-- Visible title + search snippet. Unique per language (and per page). -->
     <title>${escapeHtml(title)}</title>
@@ -584,7 +589,7 @@ function renderHome(locale) {
         The heading above is HTML text (indexable).
         This image is a separate localized asset because it contains words.
       -->
-      <p>
+      <p class="hero">
         <img src="${imageHref}" alt="${escapeHtml(imageAlt)}" width="1080" height="1080">
       </p>
 ${renderReviewsSection(locale)}
@@ -627,6 +632,7 @@ ${hreflangTags("home")}`,
     languageNavHtml: languageNav(locale, "home"),
     mainHtml,
     footerHtml: footerNav(locale, "home"),
+    stylesheets: [withBase("/styles/home.css")],
   });
 }
 
