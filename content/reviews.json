@@ -7,18 +7,8 @@
     "country": "RU",
     "appVersion": "2.2",
     "sourceLanguage": "ru",
-    "title": {
-      "ru": "Выше похвал!!!",
-      "en": "Beyond praise!!!",
-      "da": "Hævet over al ros!!!",
-      "ar": "فوق كل مديح!!!"
-    },
-    "body": {
-      "ru": "Прога супер! Лучшая, из тех, что я пробовал. Всё очень просто и функционально. Вот, если бы, можно было бы изменять цвет карточек и цвет шрифта, — тогда прогу можно номинировать на Нобелевскую премию 👍😁",
-      "en": "The app is super! The best of those I’ve tried. Everything is very simple and functional. If you could change the card color and the font color — then the app could be nominated for a Nobel Prize 👍😁",
-      "da": "Appen er mega god! Den bedste, jeg har prøvet. Det er meget enkelt og funktionelt. Hvis man kunne ændre kortenes farve og skrifttypefarven — så kunne appen nomineres til Nobelprisen 👍😁",
-      "ar": "التطبيق رائع! أفضل ما جرّبته. كل شيء بسيط وعملي جداً. لو أمكن تغيير لون البطاقات ولون الخط، لأمكن ترشيح التطبيق لجائزة نوبل 👍😁"
-    }
+    "title": "Выше похвал!!!",
+    "body": "Прога супер! Лучшая, из тех, что я пробовал. Всё очень просто и функционально. Вот, если бы, можно было бы изменять цвет карточек и цвет шрифта, — тогда прогу можно номинировать на Нобелевскую премию 👍😁"
   },
   {
     "id": "p-olina-2024-09-19",
@@ -28,18 +18,8 @@
     "country": "RU",
     "appVersion": "2.1",
     "sourceLanguage": "ru",
-    "title": {
-      "ru": "Отличное приложение!",
-      "en": "Excellent app!",
-      "da": "Fremragende app!",
-      "ar": "تطبيق ممتاز!"
-    },
-    "body": {
-      "ru": "Приложение просто супер, но чтобы добавить карточку с фото необходимо оформить подписку. 100 рублей в мес на так уж много, поэтому я приобрела, тк в аналогичных приложениях цена гораздо выше. Хотелось бы ещё функцию сортировки карточек, чтобы можно было отсеивать те, что хорошо запомнил.",
-      "en": "The app is simply super, but to add a card with a photo you need a subscription. 100 rubles a month isn’t that much, so I bought it, because similar apps cost much more. I would also like a card-sorting feature so I can filter out the ones I’ve memorized well.",
-      "da": "Appen er simpelthen super, men for at tilføje et kort med foto skal man have et abonnement. 100 rubler om måneden er ikke så meget, så jeg købte det, fordi tilsvarende apps er meget dyrere. Jeg kunne også godt tænke mig en sorteringsfunktion, så jeg kan frasortere dem, jeg husker godt.",
-      "ar": "التطبيق رائع، لكن لإضافة بطاقة بصورة يجب الاشتراك. 100 روبل شهرياً ليست كثيراً، لذلك اشتركت لأن الأسعار في التطبيقات المشابهة أعلى بكثير. وددت أيضاً خاصية لفرز البطاقات حتى أستبعد ما أحفظه جيداً."
-    }
+    "title": "Отличное приложение!",
+    "body": "Приложение просто супер, но чтобы добавить карточку с фото необходимо оформить подписку. 100 рублей в мес на так уж много, поэтому я приобрела, тк в аналогичных приложениях цена гораздо выше. Хотелось бы ещё функцию сортировки карточек, чтобы можно было отсеивать те, что хорошо запомнил."
   },
   {
     "id": "gasterophilidae-2024-01-04",
@@ -49,18 +29,8 @@
     "country": "RU",
     "appVersion": "1.1.2",
     "sourceLanguage": "ru",
-    "title": {
-      "ru": "Удобно и ничего лишнего",
-      "en": "Convenient and nothing extra",
-      "da": "Praktisk og uden noget ekstra",
-      "ar": "مريح بلا زيادة"
-    },
-    "body": {
-      "ru": "Долго искал подобное приложение, без лишней мешкры и с акцентом на удобство карточек, спасибо! Пожелания: - Если бы была подписка на генерацию картинки по теме карточки (сейчас бум таких нейронных сетей), я с удовольствием ее приобрел бы. Когда помимо текста есть еще привязка к зрительному образу, запоминание идет ещё быстрее. - Возможность публиковать свою библиотеку и смотреть чужие. Вы создали приложение близкое по духу к Эппл стору. Площадка, на которой сами пользователи могут создавать контент! Пусть юзеры могут публиковать свои библиотеки, с описанием и предпросмотром, а остальные юзеры добавлять к себе чужие библиотеки, которые дали доступ к публичности!",
-      "en": "I looked for a long time for an app like this, without extra clutter and with a focus on convenient cards — thank you! Wish list: If there were a subscription for generating an image for the card’s topic (there is a boom in those neural networks right now), I would gladly buy it. When there is a visual image as well as the text, memorizing goes even faster. Also the ability to publish your library and look at other people’s. You created an app close in spirit to the Apple Store. A platform where users themselves can create content! Let users publish their libraries, with a description and a preview, and let other users add libraries that were made public.",
-      "da": "Jeg har længe ledt efter en app som denne, uden unødig pynt og med vægt på praktiske kort — tak! Ønsker: Hvis der var et abonnement til at generere et billede til kortets emne (der er boom i den slags neurale netværk lige nu), ville jeg med glæde købe det. Når der ud over teksten også er et visuelt billede, går indlæringen endnu hurtigere. Og muligheden for at udgive sit bibliotek og se andres. I har skabt en app, der i ånden ligger tæt på Apple Store. En platform, hvor brugerne selv kan skabe indhold! Lad brugere udgive deres biblioteker med beskrivelse og forhåndsvisning, og lad andre tilføje biblioteker, der er gjort offentlige.",
-      "ar": "بحثت طويلاً عن تطبيق كهذا، بلا زوائد ومع التركيز على سهولة البطاقات، شكراً! أمنيات: لو وُجد اشتراك لتوليد صورة حسب موضوع البطاقة (هناك رواج الآن لهذه الشبكات العصبية)، لاشتريته بسرور. عندما يكون إلى جانب النص صورة بصرية، يصير الحفظ أسرع. وإمكانية نشر مكتبتي ومشاهدة مكتبات الآخرين. أنشأتم تطبيقاً قريباً بروح متجر آبل. منصة يصنع فيها المستخدمون المحتوى بأنفسهم! فليُتح للمستخدمين نشر مكتباتهم مع وصف ومعاينة، ولْيُضف الآخرون المكتبات التي أُتيحت للعلن."
-    }
+    "title": "Удобно и ничего лишнего",
+    "body": "Долго искал подобное приложение, без лишней мешкры и с акцентом на удобство карточек, спасибо! Пожелания: - Если бы была подписка на генерацию картинки по теме карточки (сейчас бум таких нейронных сетей), я с удовольствием ее приобрел бы. Когда помимо текста есть еще привязка к зрительному образу, запоминание идет ещё быстрее. - Возможность публиковать свою библиотеку и смотреть чужие. Вы создали приложение близкое по духу к Эппл стору. Площадка, на которой сами пользователи могут создавать контент! Пусть юзеры могут публиковать свои библиотеки, с описанием и предпросмотром, а остальные юзеры добавлять к себе чужие библиотеки, которые дали доступ к публичности!"
   },
   {
     "id": "hellfire7777-2023-09-07",
@@ -70,16 +40,8 @@
     "country": "IN",
     "appVersion": "1.0",
     "sourceLanguage": "en",
-    "title": {
-      "en": "Loved the app",
-      "da": "Elskede appen",
-      "ar": "أحببت التطبيق"
-    },
-    "body": {
-      "en": "The design and overall interface of the app makes it really easy to understand and use it on the go, loved it!",
-      "da": "Appens design og hele brugerfladen gør den virkelig nem at forstå og bruge på farten. Elskede den!",
-      "ar": "تصميم التطبيق وواجهته يجعلانه سهل الفهم والاستخدام أثناء التنقل، أحببته!"
-    }
+    "title": "Loved the app",
+    "body": "The design and overall interface of the app makes it really easy to understand and use it on the go, loved it!"
   },
   {
     "id": "ludm6565-2023-09-16",
@@ -89,17 +51,7 @@
     "country": "BY",
     "appVersion": "1.0",
     "sourceLanguage": "ru",
-    "title": {
-      "ru": "👏👏👏",
-      "en": "👏👏👏",
-      "da": "👏👏👏",
-      "ar": "👏👏👏"
-    },
-    "body": {
-      "ru": "Супер приложение",
-      "en": "Super app",
-      "da": "Super app",
-      "ar": "تطبيق رائع"
-    }
+    "title": "👏👏👏",
+    "body": "Супер приложение"
   }
 ]

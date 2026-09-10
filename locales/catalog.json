@@ -1,0 +1,126 @@
+{
+  "metaTitle": {
+    "comment": "Home page document title. Shown in the browser tab and as the Google result title. Keep it under ~60 characters.",
+    "value": "Hello world"
+  },
+  "metaDescription": {
+    "comment": "Home page search-result snippet. One or two sentences, under ~160 characters. Must be unique per language.",
+    "value": "A small static page in English, with Danish and Arabic versions, built to show multilingual URLs and SEO."
+  },
+  "ogTitle": {
+    "comment": "Home page Open Graph title. Headline on iMessage, Telegram, Slack, and Facebook cards. Not the Google result title. Keep it short.",
+    "value": "Hello World, Probably"
+  },
+  "ogDescription": {
+    "comment": "Home page Open Graph description. Shown under the title on chat and social share cards. Not the Google snippet.",
+    "value": "A revolutionary website about saying hello to the world, one unnecessarily localized character at a time. Contains zero useful information and at least one enthusiastic greeting."
+  },
+  "ogImageAlt": {
+    "comment": "Accessibility text for the Open Graph share image. Describe the logo; this file has no words on it.",
+    "value": "Hello World app logo: two overlapping rounded squares on a green background"
+  },
+  "heading": {
+    "comment": "Visible H1 on the home page. Real HTML text, not an image, so search engines can read it.",
+    "value": "Hello world"
+  },
+  "body": {
+    "comment": "Main paragraph on the home page. Write naturally in this language; do not leave English and translate word-for-word.",
+    "value": "This is a small static website. Each language has its own URL so people and search engines can find the page in their own language."
+  },
+  "imageAlt": {
+    "comment": "alt text for the home page hero image. Describe the image in this language. If the image contains words, include those words here.",
+    "value": "Cartoon cow, dog, and cat under the words Hello world"
+  },
+  "reviewsHeading": {
+    "comment": "Visible heading above the home page reviews list.",
+    "value": "Reviews"
+  },
+  "reviewsRating": {
+    "comment": "Numeric star rating. Keep the {rating} placeholder exactly. The build replaces it with 1–5.",
+    "value": "{rating}/5"
+  },
+  "reviewsTranslatedFrom": {
+    "comment": "Shown when the review was written in another language. Keep the {language} placeholder exactly.",
+    "value": "Translated from {language}"
+  },
+  "reviewsVersion": {
+    "comment": "App version the review was written for. Keep the {version} placeholder exactly.",
+    "value": "Version {version}"
+  },
+  "languageNavLabel": {
+    "comment": "Accessible name of the language switcher. Translate this; the language names themselves stay in their native form.",
+    "value": "Languages"
+  },
+  "footerNavLabel": {
+    "comment": "Accessible name of the footer link list.",
+    "value": "Legal and support"
+  },
+  "footerTerms": {
+    "comment": "Footer link to the Terms page. Translate the label even though the Terms document itself stays in English.",
+    "value": "Terms"
+  },
+  "footerSupport": {
+    "comment": "Footer link to the Support page.",
+    "value": "Support"
+  },
+  "supportMetaTitle": {
+    "comment": "Support page document title. Keep it under ~60 characters.",
+    "value": "Support"
+  },
+  "supportMetaDescription": {
+    "comment": "Support page search-result snippet. Unique per language, under ~160 characters.",
+    "value": "Having trouble with Hello World? Refresh the page, check your spelling, or email hello@example.com."
+  },
+  "supportHeading": {
+    "comment": "Visible H1 on the Support page.",
+    "value": "Support"
+  },
+  "supportIntro": {
+    "comment": "Opening line on the Support page. Keep Hello World as the product name.",
+    "value": "Having trouble with Hello World?"
+  },
+  "supportLead": {
+    "comment": "Sentence above the troubleshooting steps.",
+    "value": "Try these advanced troubleshooting techniques:"
+  },
+  "supportStep1Title": {
+    "comment": "First troubleshooting step title. Keep the number.",
+    "value": "1. Refresh the page."
+  },
+  "supportStep1Body": {
+    "comment": "First troubleshooting step body.",
+    "value": "The oldest trick in the book."
+  },
+  "supportStep2Title": {
+    "comment": "Second troubleshooting step title. Keep the number.",
+    "value": "2. Check your spelling."
+  },
+  "supportStep2Body": {
+    "comment": "Second troubleshooting step body. Keep Hello World in quotes as the product phrase.",
+    "value": "“Hello World” is very particular about its letters."
+  },
+  "supportStep3Title": {
+    "comment": "Third troubleshooting step title. Keep the number.",
+    "value": "3. Try turning it off and on again."
+  },
+  "supportStep3Body": {
+    "comment": "Third troubleshooting step body.",
+    "value": "Yes, seriously."
+  },
+  "supportContact": {
+    "comment": "Keep the {email} placeholder exactly. The build replaces it with a mailto link.",
+    "value": "Still stuck? Contact us at {email} and describe what went wrong."
+  },
+  "supportEvidence": {
+    "comment": "Final paragraph on the Support page.",
+    "value": "Please include screenshots, error messages, and your best guess at what the computer is angry about."
+  },
+  "appStoreHeading": {
+    "comment": "Visible heading above the App Store badge. Keep it short.",
+    "value": "Get the app"
+  },
+  "appStoreBadgeAlt": {
+    "comment": "alt text for the official Download on the App Store badge. Include the words shown on the badge.",
+    "value": "Download on the App Store"
+  }
+}

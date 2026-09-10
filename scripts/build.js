@@ -1,56 +1,34 @@
-import { copyFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { absoluteUrl, appStoreUrl, pagePath, site, withBase } from "../site.config.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
-const catalog = JSON.parse(
-  readFileSync(join(root, "locales", "strings.json"), "utf8"),
+const catalog = loadJson("locales/catalog.json");
+const terms = loadJson("content/terms.json");
+const reviews = loadJson("content/reviews.json");
+const translations = Object.fromEntries(
+  site.locales
+    .filter((locale) => locale.code !== site.defaultLocale)
+    .map((locale) => [locale.code, loadJson(`locales/${locale.code}.json`)]),
 );
-const terms = JSON.parse(
-  readFileSync(join(root, "content", "terms.json"), "utf8"),
-);
-const reviews = JSON.parse(
-  readFileSync(join(root, "content", "reviews.json"), "utf8"),
+const reviewTranslations = Object.fromEntries(
+  site.locales.map((locale) => [
+    locale.code,
+    loadJson(`content/reviews/${locale.code}.json`),
+  ]),
 );
 
-const requiredKeys = [
-  "metaTitle",
-  "metaDescription",
-  "ogTitle",
-  "ogDescription",
-  "ogImageAlt",
-  "heading",
-  "body",
-  "imageAlt",
-  "reviewsHeading",
-  "reviewsRating",
-  "reviewsTranslatedFrom",
-  "reviewsVersion",
-  "languageNavLabel",
-  "footerNavLabel",
-  "footerTerms",
-  "footerSupport",
-  "supportMetaTitle",
-  "supportMetaDescription",
-  "supportHeading",
-  "supportIntro",
-  "supportLead",
-  "supportStep1Title",
-  "supportStep1Body",
-  "supportStep2Title",
-  "supportStep2Body",
-  "supportStep3Title",
-  "supportStep3Body",
-  "supportContact",
-  "supportEvidence",
-  "appStoreHeading",
-  "appStoreBadgeAlt",
-];
+const catalogPlaceholders = {
+  supportContact: "{email}",
+  reviewsRating: "{rating}",
+  reviewsTranslatedFrom: "{language}",
+  reviewsVersion: "{version}",
+};
 
-validateCatalog(catalog, site.locales.map((locale) => locale.code), requiredKeys);
-validateReviews(reviews, site.locales.map((locale) => locale.code));
+validateCatalog(catalog, translations);
+validateReviews(reviews, reviewTranslations);
 const sortedReviews = [...reviews].sort((a, b) =>
   b.writtenAt.localeCompare(a.writtenAt),
 );
@@ -79,38 +57,54 @@ writeFileSync(join(dist, ".nojekyll"), "");
 
 console.log(`Built site for ${absoluteUrl("/")}`);
 
-function validateCatalog(strings, localeCodes, keys) {
+function loadJson(relativePath) {
+  const fullPath = join(root, relativePath);
+  if (!existsSync(fullPath)) {
+    throw new Error(`Missing ${relativePath}`);
+  }
+  return JSON.parse(readFileSync(fullPath, "utf8"));
+}
+
+function validateCatalog(source, localeTables) {
   const missing = [];
+  const keys = Object.keys(source);
+
+  if (keys.length === 0) {
+    missing.push("catalog has no keys");
+  }
 
   for (const key of keys) {
-    const entry = strings[key];
-    if (!entry) {
-      missing.push(`missing key "${key}"`);
+    const entry = source[key];
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      missing.push(`"${key}" must be { comment, value }`);
       continue;
     }
-    if (!entry.comment) {
+    if (!nonemptyString(entry.comment)) {
       missing.push(`"${key}" has no translator comment`);
     }
-    for (const code of localeCodes) {
-      if (typeof entry[code] !== "string" || entry[code].trim() === "") {
-        missing.push(`"${key}" is missing ${code}`);
-      }
+    if (!nonemptyString(entry.value)) {
+      missing.push(`"${key}" is missing English value`);
     }
   }
 
-  for (const code of localeCodes) {
-    if (!strings.supportContact?.[code]?.includes("{email}")) {
-      missing.push(`supportContact ${code} must contain {email}`);
+  checkPlaceholders("catalog", (key) => source[key]?.value, missing);
+
+  for (const [code, table] of Object.entries(localeTables)) {
+    if (table === null || typeof table !== "object" || Array.isArray(table)) {
+      missing.push(`locales/${code}.json must be a flat object`);
+      continue;
     }
-    if (!strings.reviewsRating?.[code]?.includes("{rating}")) {
-      missing.push(`reviewsRating ${code} must contain {rating}`);
+    for (const key of keys) {
+      if (!nonemptyString(table[key])) {
+        missing.push(`locales/${code}.json is missing "${key}"`);
+      }
     }
-    if (!strings.reviewsTranslatedFrom?.[code]?.includes("{language}")) {
-      missing.push(`reviewsTranslatedFrom ${code} must contain {language}`);
+    for (const key of Object.keys(table)) {
+      if (!Object.hasOwn(source, key)) {
+        missing.push(`locales/${code}.json has extra key "${key}"`);
+      }
     }
-    if (!strings.reviewsVersion?.[code]?.includes("{version}")) {
-      missing.push(`reviewsVersion ${code} must contain {version}`);
-    }
+    checkPlaceholders(`locales/${code}.json`, (key) => table[key], missing);
   }
 
   if (missing.length > 0) {
@@ -120,8 +114,28 @@ function validateCatalog(strings, localeCodes, keys) {
   }
 }
 
+function checkPlaceholders(label, valueForKey, missing) {
+  for (const [key, token] of Object.entries(catalogPlaceholders)) {
+    const value = valueForKey(key);
+    if (typeof value === "string" && !value.includes(token)) {
+      missing.push(`${label} ${key} must contain ${token}`);
+    }
+  }
+}
+
 function t(key, localeCode) {
-  return catalog[key][localeCode];
+  const entry = catalog[key];
+  if (!entry) {
+    throw new Error(`Unknown string key "${key}"`);
+  }
+  if (localeCode === site.defaultLocale) {
+    return entry.value;
+  }
+  const value = translations[localeCode]?.[key];
+  if (!nonemptyString(value)) {
+    throw new Error(`Missing ${localeCode} translation for "${key}"`);
+  }
+  return value;
 }
 
 function escapeHtml(value) {
@@ -162,20 +176,7 @@ function nonemptyString(value) {
   return typeof value === "string" && value.trim() !== "";
 }
 
-function localizedMap(value, requiredLangs, label) {
-  const missing = [];
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return [`${label} must be an object`];
-  }
-  for (const code of requiredLangs) {
-    if (!nonemptyString(value[code])) {
-      missing.push(`${label}.${code} is missing`);
-    }
-  }
-  return missing;
-}
-
-function validateReviews(items, localeCodes) {
+function validateReviews(items, localeTables) {
   const missing = [];
 
   if (!Array.isArray(items) || items.length === 0) {
@@ -213,17 +214,62 @@ function validateReviews(items, localeCodes) {
     if (typeof review?.sourceLanguage !== "string" || !/^[a-z]{2}$/.test(review.sourceLanguage)) {
       missing.push(`${where} sourceLanguage must be a two-letter language code`);
     }
-
-    const requiredLangs = new Set([review?.sourceLanguage, ...localeCodes]);
-    missing.push(...localizedMap(review?.title, requiredLangs, `${where} title`));
-    missing.push(...localizedMap(review?.body, requiredLangs, `${where} body`));
+    if (!nonemptyString(review?.title)) {
+      missing.push(`${where} is missing source title`);
+    }
+    if (!nonemptyString(review?.body)) {
+      missing.push(`${where} is missing source body`);
+    }
   });
+
+  for (const [code, table] of Object.entries(localeTables)) {
+    if (table === null || typeof table !== "object" || Array.isArray(table)) {
+      missing.push(`content/reviews/${code}.json must be a flat object`);
+      continue;
+    }
+
+    for (const review of items) {
+      if (!review?.id || review.sourceLanguage === code) {
+        continue;
+      }
+      const entry = table[review.id];
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        missing.push(`content/reviews/${code}.json is missing "${review.id}"`);
+        continue;
+      }
+      if (!nonemptyString(entry.title)) {
+        missing.push(`content/reviews/${code}.json "${review.id}" is missing title`);
+      }
+      if (!nonemptyString(entry.body)) {
+        missing.push(`content/reviews/${code}.json "${review.id}" is missing body`);
+      }
+    }
+
+    for (const id of Object.keys(table)) {
+      const review = items.find((item) => item.id === id);
+      if (!review) {
+        missing.push(`content/reviews/${code}.json has extra id "${id}"`);
+      } else if (review.sourceLanguage === code) {
+        missing.push(
+          `content/reviews/${code}.json should not translate "${id}" (already ${code})`,
+        );
+      }
+    }
+  }
 
   if (missing.length > 0) {
     throw new Error(
       `Reviews list is incomplete:\n${missing.map((item) => `  - ${item}`).join("\n")}`,
     );
   }
+}
+
+function reviewCopy(review, localeCode) {
+  if (review.sourceLanguage === localeCode) {
+    return { title: review.title, body: review.body };
+  }
+  const entry = reviewTranslations[localeCode][review.id];
+  return { title: entry.title, body: entry.body };
 }
 
 function formatReviewDate(iso, localeCode) {
@@ -253,6 +299,7 @@ ${articles}
 }
 
 function renderReview(review, locale) {
+  const copy = reviewCopy(review, locale.code);
   const ratingText = fill(escapeHtml(t("reviewsRating", locale.code)), {
     rating: String(review.rating),
   });
@@ -261,7 +308,7 @@ function renderReview(review, locale) {
   });
   const country = escapeHtml(displayRegion(review.country, locale.code));
   const dateLabel = escapeHtml(formatReviewDate(review.writtenAt, locale.code));
-  const bodyHtml = review.body[locale.code]
+  const bodyHtml = copy.body
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter(Boolean)
@@ -279,7 +326,7 @@ function renderReview(review, locale) {
 
   return `        <article>
           <p><span aria-hidden="true">${stars(review.rating)}</span> ${ratingText}</p>
-          <h3>${escapeHtml(review.title[locale.code])}</h3>
+          <h3>${escapeHtml(copy.title)}</h3>
           <p><time datetime="${escapeHtml(review.writtenAt)}">${dateLabel}</time> — ${escapeHtml(review.author)}</p>
           <p>${versionText} · ${country}</p>
 ${translatedFrom}          <blockquote>

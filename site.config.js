@@ -2,7 +2,11 @@
  * Site-wide i18n and URL policy.
  *
  * This is the web equivalent of an Xcode project’s known locales.
- * Copy lives in locales/strings.json; routing and direction live here.
+ * English source + translator comments live in locales/catalog.json.
+ * Each other language is locales/<code>.json (flat key → string).
+ * Review quotes: content/reviews.json (facts + original text) and
+ * content/reviews/<code>.json (translations for that site language).
+ * Routing, direction, and storefronts live here — not in the copy files.
  *
  * URL rule (this is the SEO-critical choice):
  *   One language = one URL. Never swap strings with JavaScript on a
