@@ -288,6 +288,26 @@ function displayRegion(code, localeCode) {
   return new Intl.DisplayNames([localeCode], { type: "region" }).of(code);
 }
 
+function renderFaqSection(locale) {
+  const items = [
+    ["faqFreeQuestion", "faqFreeAnswer"],
+    ["faqToasterQuestion", "faqToasterAnswer"],
+    ["faqRepeatQuestion", "faqRepeatAnswer"],
+  ]
+    .map(
+      ([questionKey, answerKey]) => `        <details>
+          <summary>${escapeHtml(t(questionKey, locale.code))}</summary>
+          <p>${escapeHtml(t(answerKey, locale.code))}</p>
+        </details>`,
+    )
+    .join("\n");
+
+  return `      <section class="faq">
+        <h2>${escapeHtml(t("faqHeading", locale.code))}</h2>
+${items}
+      </section>`;
+}
+
 function renderReviewsSection(locale) {
   const articles = sortedReviews
     .map((review) => renderReview(review, locale))
@@ -609,6 +629,7 @@ function renderHome(locale) {
         <img src="${imageHref}" alt="${escapeHtml(imageAlt)}" width="1080" height="1080">
       </p>
 ${renderReviewsSection(locale)}
+${renderFaqSection(locale)}
     </main>`;
 
   return renderDocument({

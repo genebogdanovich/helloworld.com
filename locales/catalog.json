@@ -47,6 +47,34 @@
     "comment": "App version the review was written for. Keep the {version} placeholder exactly.",
     "value": "Version {version}"
   },
+  "faqHeading": {
+    "comment": "Visible heading above the home page FAQ. Keep it as a real heading, not an image.",
+    "value": "Frequently Asked Questions"
+  },
+  "faqFreeQuestion": {
+    "comment": "FAQ question. Keep Hello World as the product name.",
+    "value": "Is Hello World free?"
+  },
+  "faqFreeAnswer": {
+    "comment": "FAQ answer. Keep the joke; write naturally in this language.",
+    "value": "Yes. We spent all the money on the domain name."
+  },
+  "faqToasterQuestion": {
+    "comment": "FAQ question. Keep Hello World as the product name.",
+    "value": "Can I use Hello World on my toaster?"
+  },
+  "faqToasterAnswer": {
+    "comment": "FAQ answer. Keep the joke; write naturally in this language.",
+    "value": "Technically, yes. Emotionally, we recommend starting with a computer."
+  },
+  "faqRepeatQuestion": {
+    "comment": "FAQ question. Keep Hello World in quotes as the product phrase.",
+    "value": "What happens if I say “Hello World” 100 times?"
+  },
+  "faqRepeatAnswer": {
+    "comment": "FAQ answer. Keep the joke; write naturally in this language.",
+    "value": "Nothing. But congratulations on completing your first repetitive stress test."
+  },
   "languageNavLabel": {
     "comment": "Accessible name of the language switcher. Translate this; the language names themselves stay in their native form.",
     "value": "Languages"
