@@ -471,7 +471,7 @@ function siteHeader(locale, page, languageNavHtml) {
   const homeCurrent = page === "home" ? ' aria-current="page"' : "";
 
   return `    <header>
-      <p>
+      <p class="brand">
         <a href="${homeHref}"${homeCurrent}>
           <img src="${withBase("/images/app-logo/logo.png")}" alt="" width="40" height="40">
           ${escapeHtml(site.brand)}
