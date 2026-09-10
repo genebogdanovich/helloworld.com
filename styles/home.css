@@ -214,6 +214,7 @@ main > p:not(.hero) {
   width: 100%;
   max-width: 32rem;
   height: auto;
+  margin-inline: auto;
   border-radius: 0.75rem;
 }
 
