@@ -55,6 +55,8 @@ export const site = {
   origin: env("SITE_ORIGIN", "http://127.0.0.1:4173"),
   basePath: normalizeBasePath(env("SITE_BASE_PATH", "")),
   defaultLocale: "en",
+  // Untranslated wordmark in the header. Do not put this in locale files.
+  brand: "helloworld.com",
   supportEmail: "hello@example.com",
   appStore: {
     id: "6462816053",

@@ -466,8 +466,24 @@ function ogShare(locale) {
   };
 }
 
+function siteHeader(locale, page, languageNavHtml) {
+  const homeHref = withBase(pagePath("home", locale));
+  const homeCurrent = page === "home" ? ' aria-current="page"' : "";
+
+  return `    <header>
+      <p>
+        <a href="${homeHref}"${homeCurrent}>
+          <img src="${withBase("/images/app-logo/logo.png")}" alt="" width="40" height="40">
+          ${escapeHtml(site.brand)}
+        </a>
+      </p>
+${languageNavHtml}
+    </header>`;
+}
+
 function renderDocument({
   locale,
+  page,
   title,
   description,
   pageUrl,
@@ -494,7 +510,7 @@ function renderDocument({
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="${withBase("/images/app-logo/favicon-32.png")}" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="${withBase("/images/app-logo/apple-touch-icon.png")}" sizes="180x180">
+    <link rel="apple-touch-icon" href="${withBase("/images/app-logo/logo.png")}" sizes="180x180">
 
     <!--
       Not visual design. Google indexes the phone-sized page.
@@ -542,7 +558,7 @@ ${JSON.stringify(jsonLd, null, 6).replaceAll("<", "\\u003c")}
     </script>
   </head>
   <body>
-${languageNavHtml}
+${siteHeader(locale, page, languageNavHtml)}
 
 ${mainHtml}
 
@@ -633,6 +649,7 @@ ${hreflangTags("home")}`,
     mainHtml,
     footerHtml: footerNav(locale, "home"),
     stylesheets: [withBase("/styles/home.css")],
+    page: "home",
   });
 }
 
@@ -685,6 +702,7 @@ ${hreflangTags("support")}`,
     languageNavHtml: languageNav(locale, "support"),
     mainHtml,
     footerHtml: footerNav(locale, "support"),
+    page: "support",
   });
 }
 
@@ -733,6 +751,7 @@ ${items}
     mainHtml,
     footerHtml: footerNav(locale, "terms"),
     localized: false,
+    page: "terms",
   });
 }
 
