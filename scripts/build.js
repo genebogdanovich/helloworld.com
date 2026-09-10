@@ -288,12 +288,16 @@ function displayRegion(code, localeCode) {
   return new Intl.DisplayNames([localeCode], { type: "region" }).of(code);
 }
 
-function renderFaqSection(locale) {
-  const items = [
+function faqItemKeys() {
+  return [
     ["faqFreeQuestion", "faqFreeAnswer"],
     ["faqToasterQuestion", "faqToasterAnswer"],
     ["faqRepeatQuestion", "faqRepeatAnswer"],
-  ]
+  ];
+}
+
+function renderFaqSection(locale) {
+  const items = faqItemKeys()
     .map(
       ([questionKey, answerKey]) => `        <details>
           <summary>${escapeHtml(t(questionKey, locale.code))}</summary>
@@ -306,6 +310,22 @@ function renderFaqSection(locale) {
         <h2>${escapeHtml(t("faqHeading", locale.code))}</h2>
 ${items}
       </section>`;
+}
+
+function faqPageJsonLd(locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: locale.code,
+    mainEntity: faqItemKeys().map(([questionKey, answerKey]) => ({
+      "@type": "Question",
+      name: t(questionKey, locale.code),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t(answerKey, locale.code),
+      },
+    })),
+  };
 }
 
 function renderReviewsSection(locale) {
@@ -520,9 +540,18 @@ function renderDocument({
   footerHtml,
   localized = true,
   stylesheets = [],
+  extraJsonLd = null,
 }) {
   const lastMod = new Date().toISOString().slice(0, 10);
   jsonLd.dateModified = lastMod;
+  const jsonLdScripts = [jsonLd, extraJsonLd]
+    .filter(Boolean)
+    .map(
+      (block) => `    <script type="application/ld+json">
+${JSON.stringify(block, null, 6).replaceAll("<", "\\u003c")}
+    </script>`,
+    )
+    .join("\n");
 
   return `<!DOCTYPE html>
 <html lang="${locale.code}" dir="${locale.dir}">
@@ -573,9 +602,7 @@ ${hreflangHtml}
     <meta property="og:locale" content="${locale.ogLocale}">
 ${localized ? `${ogLocaleAlternates(locale)}\n` : ""}
 
-    <script type="application/ld+json">
-${JSON.stringify(jsonLd, null, 6).replaceAll("<", "\\u003c")}
-    </script>
+${jsonLdScripts}
   </head>
   <body>
 ${siteHeader(locale, page, languageNavHtml)}
@@ -671,6 +698,7 @@ ${hreflangTags("home")}`,
     footerHtml: footerNav(locale, "home"),
     stylesheets: [withBase("/styles/home.css")],
     page: "home",
+    extraJsonLd: faqPageJsonLd(locale),
   });
 }
 
