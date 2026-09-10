@@ -16,7 +16,7 @@ body {
   margin-inline: auto;
   padding-block: 1rem 2.5rem;
   padding-inline: 1.25rem;
-  width: min(40rem, 100%);
+  width: min(72rem, 100%);
   overflow-wrap: break-word;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", Helvetica, system-ui, Arial, sans-serif;
@@ -200,29 +200,91 @@ main,
   max-width: 100%;
 }
 
+main > h1,
+main > p:not(.hero) {
+  max-width: 40rem;
+}
+
 .hero {
-  margin: 1.25rem 0 2rem;
+  margin: 1.25rem 0 0;
 }
 
 .hero img {
   display: block;
   width: 100%;
-  max-width: 100%;
+  max-width: 32rem;
   height: auto;
   border-radius: 0.75rem;
 }
 
-.reviews {
-  margin-block-start: 0.5rem;
+.faq {
+  max-width: 42rem;
+  margin-block-start: 2.5rem;
 }
 
-.reviews article {
-  padding-block: 1.15rem;
+.faq details {
   border-block-start: 1px solid #d2d2d7;
 }
 
-.reviews article:last-child {
-  padding-block-end: 0;
+.faq details:last-child {
+  border-block-end: 1px solid #d2d2d7;
+}
+
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding-block: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-block-start: -0.15em;
+  border-inline-end: 1.5px solid #6e6e73;
+  border-block-end: 1.5px solid #6e6e73;
+  transform: rotate(45deg);
+}
+
+.faq details[open] summary::after {
+  margin-block-start: 0.15em;
+  transform: rotate(-135deg);
+}
+
+.faq details p {
+  margin: 0;
+  padding-block-end: 1rem;
+  color: #6e6e73;
+}
+
+.reviews {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  align-items: start;
+  margin-block-start: 2.25rem;
+}
+
+.reviews h2 {
+  grid-column: 1 / -1;
+  margin-block-end: 0.15rem;
+}
+
+.reviews article {
+  padding: 1.1rem 1.15rem 1.2rem;
+  background: #f5f5f7;
+  border-radius: 1rem;
 }
 
 .rating,
@@ -296,7 +358,7 @@ footer a {
 @media (min-width: 40rem) {
   body {
     padding-block: 1.75rem 3rem;
-    padding-inline: 1.5rem;
+    padding-inline: 2rem;
   }
 
   h1 {
@@ -305,5 +367,16 @@ footer a {
 
   h2 {
     font-size: 1.5rem;
+  }
+
+  .reviews {
+    grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  body {
+    padding-inline: 2.5rem;
+    padding-block-end: 3.5rem;
   }
 }
