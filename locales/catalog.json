@@ -5,7 +5,7 @@
   },
   "metaDescription": {
     "comment": "Home page search-result snippet. One or two sentences, under ~160 characters. Must be unique per language.",
-    "value": "A small static page in English, with Danish and Arabic versions, built to show multilingual URLs and SEO."
+    "value": "A small static page in English, with Danish, Arabic, and Russian versions, built to show multilingual URLs and SEO."
   },
   "ogTitle": {
     "comment": "Home page Open Graph title. Headline on iMessage, Telegram, Slack, and Facebook cards. Not the Google result title. Keep it short.",

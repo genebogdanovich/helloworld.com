@@ -15,9 +15,10 @@
  *   English (default)  {origin}{basePath}/
  *   Danish             {origin}{basePath}/da/
  *   Arabic             {origin}{basePath}/ar/
+ *   Russian            {origin}{basePath}/ru/
  *
  * Localized inner pages follow the same prefix:
- *   Support            /support/   /da/support/   /ar/support/
+ *   Support            /support/   /da/support/   /ar/support/   /ru/support/
  *
  * Untranslated pages get one URL, not a copy per language:
  *   Terms              /terms/
@@ -89,6 +90,16 @@ export const site = {
       appStoreStorefront: "sa",
       appStoreBadge:
         "images/Download-on-the-App-Store/Download_on_the_App_Store_Badge_AR_RGB_blk_102417.svg",
+    },
+    {
+      code: "ru",
+      dir: "ltr",
+      ogLocale: "ru_RU",
+      path: "/ru/",
+      nativeName: "Русский",
+      appStoreStorefront: "ru",
+      appStoreBadge:
+        "images/Download-on-the-App-Store/Download_on_the_App_Store_Badge_RU_RGB_blk_100317.svg",
     },
   ],
 };
